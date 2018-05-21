@@ -1,0 +1,49 @@
+<h1>Sign in</h1>
+
+<form [formGroup]="form" (submit)="register()">
+    <div class="form-group">
+      <label>Full name</label>
+      <input type="text" name="name" formControlName="name" class="form-control"
+      [ngClass]="{'is-invalid': form.controls.name.errors  && form.controls.name.dirty }"
+        placeholder="Full name">
+
+        <ul>
+          <li *ngIf="form.controls['name'].errors?.required && form.controls['name'].dirty">This field is required.</li>
+          <li *ngIf="(form.controls['name'].errors?.maxlength && form.controls['name'].dirty) ||
+           (form.controls['name'].errors?.minlength && form.controls['name'].dirty)">
+            This field must be least more 3 characters and no less of 25.
+          </li>
+        </ul>
+    </div>
+    <div class="form-group">
+      <label>Email address</label>
+      <input type="email" name="email" formControlName="email" class="form-control"
+      [ngClass]="{'is-invalid': form.controls.email.errors  && form.controls.email.dirty }"
+       placeholder="Enter email">
+
+        <ul>
+          <li *ngIf="form.controls['email'].errors?.required && form.controls['email'].dirty">
+            This field is required.</li>
+          <li *ngIf="(form.controls['email'].errors?.maxlength && form.controls['email'].dirty) ||
+           (form.controls['email'].errors?.minlength && form.controls['email'].dirty)">
+            This field must be least more 8 characters and no less of 35.
+          </li>
+        </ul>
+    </div>
+    <div class="form-group">
+      <label for="exampleInputPassword1">Password</label>
+      <input type="password" class="form-control" formControlName="password" placeholder="Password"
+      [ngClass]="{'is-invalid': form.controls.password.errors  && form.controls.password.dirty }">
+
+      <ul>
+        <li *ngIf="form.controls['password'].errors?.required && form.controls['password'].dirty">
+          This field is required.</li>
+        <li *ngIf="(form.controls['password'].errors?.maxlength && form.controls['password'].dirty) ||
+          (form.controls['password'].errors?.minlength && form.controls['password'].dirty)">
+          This field must be least more 6 characters and no less of 25.
+        </li>
+      </ul>
+    </div>
+    <button type="submit" [disabled]="!form.valid" class="btn btn-primary">Submit</button>
+  </form>
+
