@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { AuthService, TokenPayload } from '../../services/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-register',
@@ -11,7 +13,9 @@ export class RegisterComponent implements OnInit {
   form: FormGroup;
 
   constructor(
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private authService: AuthService,
+    private router: Router
   ) {
     this.registerFormBuild();
   }
@@ -39,6 +43,17 @@ export class RegisterComponent implements OnInit {
     });
   }
 
-  register() {}
+  register() {
+    const user: TokenPayload = {
+      name: this.form.controls.name.value,
+      email: this.form.controls.email.value,
+      password: this.form.controls.password.value
+    };
+    this.authService.register(user).subscribe(() => {
+      this.router.navigateByUrl('/profile');
+    }, (err) => {
+      console.log(err);
+    });
+  }
 
 }

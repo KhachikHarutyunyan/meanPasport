@@ -1,5 +1,5 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
-  <a class="navbar-brand" href="#">MeanPasport</a>
+  <a class="navbar-brand" routerLink="">MeanPasport</a>
   <button class="navbar-toggler" type="button" data-toggle="collapse"
    data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
     aria-expanded="false" aria-label="Toggle navigation">
@@ -12,13 +12,15 @@
         <a class="nav-link" routerLink="">Home <span class="sr-only">(current)</span></a>
       </li>
       <li class="nav-item" routerLinkActive="active" >
-        <a class="nav-link" routerLink="/signin">Signin</a>
+        <a class="nav-link" *ngIf="!auth.isLoggedIn()" routerLink="/signin">Signin</a>
       </li>
       <li class="nav-item" routerLinkActive="active" >
-        <a class="nav-link" routerLink="/register">Register</a>
+        <a class="nav-link" *ngIf="!auth.isLoggedIn()" routerLink="/register">Register</a>
       </li>
       <li class="nav-item" routerLinkActive="active" >
-        <a class="nav-link" routerLink="/profile">Profile</a>
+        <!-- auth.getUserDetails()? metod vozvrashaet dann@e usera..
+          '?' specialn@ operator iz JWT dlya pravilnoi obrabotki dann@x iz obekta -->
+        <a class="nav-link" *ngIf="auth.isLoggedIn()" routerLink="/profile">{{ auth.getUserDetails()?.name }}</a>
       </li>
     </ul>
   </div>

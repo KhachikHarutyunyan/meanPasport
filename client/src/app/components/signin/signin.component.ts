@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { AuthService, TokenPayload } from '../../services/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-signin',
@@ -11,6 +13,8 @@ export class SigninComponent implements OnInit {
   form: FormGroup;
 
   constructor(
+    private authService: AuthService,
+    private router: Router,
     private formBuilder: FormBuilder
   ) {
     this.signinForm();
@@ -27,7 +31,15 @@ export class SigninComponent implements OnInit {
   }
 
   signIn() {
-    console.log(this.form);
+    const user: TokenPayload = {
+      email: this.form.controls.email.value,
+      password: this.form.controls.password.value
+    };
+    this.authService.login(user).subscribe(() => {
+      this.router.navigateByUrl('/profile');
+    }, (err) => {
+      console.log(err);
+    });
   }
 
 }

@@ -1,7 +1,9 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
-import { map } from 'rxjs/operators/map';
+import { map } from 'rxjs/operators';
+import { Observable } from 'rxjs';
+
 
 export interface UserDetails {
   _id: string;
@@ -67,7 +69,8 @@ export class AuthService {
     }
   }
 
-  private request(method: 'post' | 'get', type: 'login' | 'register' | 'profile', user?: TokenPayload): Observable<any> {
+  private request(method: 'post' | 'get',
+   type: 'login' | 'register' | 'profile', user?: TokenPayload): Observable<any> {
     let base;
 
     if (method === 'post') {
@@ -84,6 +87,19 @@ export class AuthService {
         return data;
       })
     );
+    return request;
+  }
+
+  public register(user: TokenPayload): Observable<any> {
+    return this.request('post', 'register', user);
+  }
+
+  public login(user: TokenPayload): Observable<any> {
+    return this.request('post', 'login', user);
+  }
+
+  public profile(): Observable<any> {
+    return this.request('get', 'profile');
   }
 
   public logout(): void {
